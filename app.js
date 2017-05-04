@@ -4,7 +4,7 @@ const passport = require('passport')
 const Strategy = require('passport-local').Strategy;
 const passwordHash = require('password-hash');
 
-mongoose.connect('mongodb://localhost/library')
+mongoose.connect('mongodb://localhost/mid_week_live_code_phase2')
 
 passport.use(new Strategy(
   function(username, password, cb) {
@@ -26,10 +26,12 @@ passport.use(new Strategy(
 
 const app = express()
 
-app.use(require('body-parser').unloaded({ extended: true }))
+app.use(require('morgan')('dev'))
+app.use(require('body-parser').urlencoded({ extended: false }))
+app.use(require('body-parser').json())
 
 app.use(passport.initialize())
-app.use('/users', require('./routes/users'));
+app.use('/users', require('./routes'));
 // app.use('/', passport.authenticate('local', { session: false }), function(req, res) {
 //   res.send(req.user)
 // })
